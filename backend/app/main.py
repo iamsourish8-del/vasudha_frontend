@@ -1,5 +1,8 @@
 """Vasudha — Green Habitat Energy Intelligence (Flask, pure Python)."""
+<<<<<<< HEAD
 import os
+=======
+>>>>>>> 6d947ee8b7a3a15bd7a02896c32a4b08c94452ba
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from app.core.config import settings
@@ -13,6 +16,7 @@ from app.modules.xai_nlq.router import xai_bp
 from app.modules.tenant_gamification.router import tenant_bp
 
 
+<<<<<<< HEAD
 def _cors_origin_allowed(origin: str) -> bool:
     """Allow exact matches, localhost, and any *.vercel.app wildcard domain."""
     if not origin:
@@ -35,12 +39,29 @@ def _cors_origin_allowed(origin: str) -> bool:
     if origin.startswith("https://") and ".vercel.app" in origin:
         return True
 
+=======
+def _cors_origin_allowed(origin) -> bool:
+    """Allow exact matches and simple https://*.vercel.app wildcard."""
+    if not origin:
+        return False
+    allowed = settings.CORS_ORIGINS
+    if origin in allowed:
+        return True
+    if settings.FRONTEND_URL and origin == settings.FRONTEND_URL.rstrip("/"):
+        return True
+    # Vercel preview + production pattern
+    if origin.startswith("https://") and origin.endswith(".vercel.app"):
+        return True
+    if "https://*.vercel.app" in allowed and origin.startswith("https://") and ".vercel.app" in origin:
+        return True
+>>>>>>> 6d947ee8b7a3a15bd7a02896c32a4b08c94452ba
     return False
 
 
 def create_app():
     app = Flask(__name__)
 
+<<<<<<< HEAD
     # Initialize CORS with permissive defaults for preflight checks
     CORS(
         app,
@@ -67,6 +88,28 @@ def create_app():
         return response
 
     # Register API Blueprints
+=======
+    # CORS: support credentials + dynamic origin check for Vercel
+    CORS(
+        app,
+        origins=settings.CORS_ORIGINS if "https://*.vercel.app" not in settings.CORS_ORIGINS else "*",
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    )
+
+    # Explicit after-request CORS for wildcard vercel (flask-cors * with credentials can be picky)
+    @app.after_request
+    def add_cors_headers(response):
+        origin = request.headers.get("Origin")
+        if _cors_origin_allowed(origin):
+            response.headers["Access-Control-Allow-Origin"] = origin
+            response.headers["Access-Control-Allow-Credentials"] = "true"
+            response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+            response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+        return response
+
+>>>>>>> 6d947ee8b7a3a15bd7a02896c32a4b08c94452ba
     app.register_blueprint(auth_bp, url_prefix="/api/v1/auth")
     app.register_blueprint(bff_bp, url_prefix="/api/v1/bff")
     app.register_blueprint(occupancy_bp, url_prefix="/api/v1/occupancy")
@@ -100,8 +143,11 @@ def create_app():
 
 
 app = create_app()
+<<<<<<< HEAD
 
 if __name__ == "__main__":
     # Pull dynamic port binding for Render deployment
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
+=======
+>>>>>>> 6d947ee8b7a3a15bd7a02896c32a4b08c94452ba

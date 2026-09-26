@@ -1,5 +1,8 @@
 flask==3.0.3
 flask-cors==4.0.1
 PyJWT==2.9.0
+<<<<<<< HEAD
 uvicorn
+=======
+>>>>>>> 6d947ee8b7a3a15bd7a02896c32a4b08c94452ba
 gunicorn==22.0.0
