@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #047857;
+  --color-primary-soft: #ecfdf5;
+  --color-leaf: #16a34a;
+  --color-moss: #14532d;
+  --color-bg: #f0fdf4;
+  --color-surface: #ffffff;
+}
+
+html {
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  color: #0f172a;
+  /* Soft green gradient + subtle leaf pattern feel */
+  background:
+    radial-gradient(ellipse 120% 80% at 0% 0%, rgba(16, 185, 129, 0.12), transparent 50%),
+    radial-gradient(ellipse 100% 60% at 100% 100%, rgba(5, 150, 105, 0.10), transparent 45%),
+    linear-gradient(180deg, #f0fdf4 0%, #ecfdf5 40%, #f8fafc 100%);
+  min-height: 100vh;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(4, 120, 87, 0.45);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #a7f3d0; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #6ee7b7; }
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Nature-inspired decorative blobs for login / empty states */
+.nature-bg {
+  background:
+    radial-gradient(circle at 12% 20%, rgba(52, 211, 153, 0.25) 0%, transparent 42%),
+    radial-gradient(circle at 88% 10%, rgba(16, 185, 129, 0.18) 0%, transparent 38%),
+    radial-gradient(circle at 70% 85%, rgba(5, 150, 105, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 20% 90%, rgba(167, 243, 208, 0.35) 0%, transparent 35%),
+    linear-gradient(165deg, #ecfdf5 0%, #d1fae5 35%, #f0fdf4 70%, #f8fafc 100%);
+}
+
+/* Soft leaf watermark using CSS only */
+.leaf-watermark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 24 24' fill='%23047857'%3E%3Cpath d='M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66C7.23 17.3 9.23 13.34 17 12V8z'/%3E%3Cpath d='M17 8c2.76 0 5-2.24 5-5h-2c0 1.65-1.35 3-3 3v2z'/%3E%3C/svg%3E");
+  background-size: 72px 72px;
+}
+
+.card-nature {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(167, 243, 208, 0.6);
+}
