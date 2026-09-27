@@ -16,10 +16,12 @@ export const TopBar: React.FC = () => {
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [showNotifications, setShowNotifications] = useState(false);
+
+  // Updated: defaults to light mode (false) if no theme is saved in localStorage
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem("theme");
     if (saved) return saved === "dark";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return false;
   });
 
   useEffect(() => {
@@ -46,10 +48,10 @@ export const TopBar: React.FC = () => {
     day: "numeric",
   });
 
+  // Updated: removed the 'second: "2-digit"' option
   const formattedTime = currentTime.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
   });
 
   return (
