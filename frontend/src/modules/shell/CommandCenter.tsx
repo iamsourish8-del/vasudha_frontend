@@ -27,10 +27,10 @@ export const CommandCenter: React.FC = () => {
   }, [activeBuilding]);
 
   if (error) {
-    return <div className="rounded-xl bg-red-50 border border-red-100 p-4 text-red-700 text-sm">{error}</div>;
+    return <div className="rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/50 p-4 text-red-700 dark:text-red-400 text-sm">{error}</div>;
   }
   if (!summary) {
-    return <div className="py-16 text-center text-slate-400 text-sm">Loading building intelligence…</div>;
+    return <div className="py-16 text-center text-slate-400 dark:text-slate-500 text-sm">Loading building intelligence…</div>;
   }
 
   const k = summary.kpis || {};
@@ -39,15 +39,15 @@ export const CommandCenter: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">{summary.building_name}</h1>
-        <p className="text-sm text-slate-500 mt-1">
+        <h1 className="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight">{summary.building_name}</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
           {summary.city} · {summary.area_m2?.toLocaleString()} m² · {summary.floors} floors · Green habitat overview
         </p>
       </div>
 
       {/* Panchabhutas performance */}
       <div>
-        <h2 className="text-xs font-medium text-emerald-800/60 uppercase tracking-wide mb-2">Panchabhutas performance</h2>
+        <h2 className="text-xs font-medium text-emerald-800/60 dark:text-emerald-400/80 uppercase tracking-wide mb-2">Panchabhutas performance</h2>
         <PanchabhutasStrip
           metrics={{
             agni_label: `Solar + peak shave · ${k.savings_pct_week ?? 30}% week cut`,
@@ -57,7 +57,7 @@ export const CommandCenter: React.FC = () => {
             gagan_label: `${k.occupied_pct ?? 58}% zone use · daylight harvest`,
           }}
         />
-        <p className="text-[10px] text-slate-400 mt-2">
+        <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2">
           Aligned with adaptive comfort practice, net-zero energy intent, and ECBC 2017 performance thinking.
         </p>
       </div>
@@ -83,7 +83,7 @@ export const CommandCenter: React.FC = () => {
 
       {/* Module cards */}
       <div>
-        <h2 className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-3">Modules</h2>
+        <h2 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">Modules</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
           <ModuleCard title="Occupancy HVAC" status={m.occupancy_hvac?.status} primary={m.occupancy_hvac?.label?.split("·")[0] || "—"} secondary={m.occupancy_hvac?.label?.split("·")[1]} onClick={() => navigate("/occupancy")} />
           <ModuleCard title="ECBC Digital Twin" status={m.digital_twin?.status} primary={`EPI ${m.digital_twin?.epi}`} secondary={`Target ${m.digital_twin?.target_epi}`} detail={m.digital_twin?.label} onClick={() => navigate("/digital-twin")} />
@@ -97,11 +97,11 @@ export const CommandCenter: React.FC = () => {
       {/* Site map + load chart */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
-          <h2 className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-2">Building location</h2>
+          <h2 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">Building location</h2>
           <BuildingMap buildingId={activeBuilding} height="240px" />
         </div>
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-5">
-          <h2 className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-4">Today&apos;s load profile (kWh/h)</h2>
+        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 transition-colors duration-200">
+          <h2 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-4">Today&apos;s load profile (kWh/h)</h2>
           <div className="h-52">
             {summary.hourly_load ? (
               <ResponsiveContainer width="100%" height="100%">
@@ -112,10 +112,10 @@ export const CommandCenter: React.FC = () => {
                       <stop offset="100%" stopColor="#059669" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" opacity={0.5} />
                   <XAxis dataKey="hour" tick={{ fontSize: 11, fill: "#64748b" }} />
                   <YAxis tick={{ fontSize: 11, fill: "#64748b" }} />
-                  <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", fontSize: 12 }} />
+                  <Tooltip contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", backgroundColor: "rgba(255, 255, 255, 0.9)", fontSize: 12 }} />
                   <Area type="monotone" dataKey="kwh" stroke="#059669" fill="url(#loadG)" strokeWidth={2} name="kWh" />
                 </AreaChart>
               </ResponsiveContainer>
@@ -130,10 +130,25 @@ export const CommandCenter: React.FC = () => {
 };
 
 function Kpi({ icon, label, value, accent, warn }: { icon: React.ReactNode; label: string; value: string | number; accent?: boolean; warn?: boolean }) {
+  const baseStyles = "rounded-xl border p-3.5 transition-colors duration-200";
+  const stateStyles = warn
+    ? "bg-amber-50/60 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50"
+    : accent
+      ? "bg-emerald-50/50 dark:bg-emerald-900/20 border-emerald-100 dark:border-emerald-800/50"
+      : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800";
+
+  const iconLabelStyles = "flex items-center gap-1.5 text-[11px] mb-1 text-slate-500 dark:text-slate-400";
+
+  const valueStyles = warn
+    ? "text-amber-800 dark:text-amber-400"
+    : accent
+      ? "text-emerald-800 dark:text-emerald-400"
+      : "text-slate-900 dark:text-white";
+
   return (
-    <div className={`rounded-xl border p-3.5 ${warn ? "bg-amber-50/60 border-amber-200" : accent ? "bg-emerald-50/50 border-emerald-100" : "bg-white border-slate-200"}`}>
-      <div className="flex items-center gap-1.5 text-slate-500 text-[11px] mb-1">{icon}<span>{label}</span></div>
-      <p className={`text-lg font-semibold tracking-tight ${warn ? "text-amber-800" : accent ? "text-emerald-800" : "text-slate-900"}`}>{value}</p>
+    <div className={`${baseStyles} ${stateStyles}`}>
+      <div className={iconLabelStyles}>{icon}<span>{label}</span></div>
+      <p className={`text-lg font-semibold tracking-tight ${valueStyles}`}>{value}</p>
     </div>
   );
 }

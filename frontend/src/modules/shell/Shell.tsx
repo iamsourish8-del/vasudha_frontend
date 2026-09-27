@@ -30,7 +30,7 @@ export const Shell: React.FC = () => {
   const isHome = location.pathname === "/" || location.pathname === "/dashboard";
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-200">
       <TopBar />
       <div className="flex flex-1 min-h-0">
         <Sidebar />

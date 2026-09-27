@@ -74,29 +74,27 @@ export default function DigitalTwinPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-emerald-950 tracking-tight">Digital Twin · Spatial Cockpit</h1>
-        <p className="text-sm text-emerald-800/60 mt-1">
+        <h1 className="text-2xl font-semibold text-emerald-950 dark:text-emerald-50 tracking-tight">Digital Twin · Spatial Cockpit</h1>
+        <p className="text-sm text-emerald-800/60 dark:text-emerald-400/80 mt-1">
           Thermal mesh · airflow demand · true presence · ECBC what-if · adaptive comfort band
         </p>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {/* Floorplate */}
-        <div className="xl:col-span-2 bg-white/90 rounded-2xl border border-emerald-100 p-4">
+        <div className="xl:col-span-2 bg-white/90 dark:bg-slate-900/90 rounded-2xl border border-emerald-100 dark:border-slate-800 p-4 transition-colors duration-200">
           <div className="flex flex-wrap items-center gap-2 mb-3">
-            <Layers className="w-4 h-4 text-emerald-700" />
-            <span className="text-xs font-medium text-slate-500 uppercase tracking-wide mr-2">Layer</span>
+            <Layers className="w-4 h-4 text-emerald-700 dark:text-emerald-500" />
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wide mr-2">Layer</span>
             {([
               ["thermal", "Thermal (Agni)"],
               ["airflow", "Airflow (Vaayu)"],
               ["presence", "Presence (Gagan)"],
             ] as const).map(([id, label]) => (
               <button
-                key={id}
-                onClick={() => setLayer(id)}
+                key={id} onClick={() => setLayer(id)}
                 className={clsx(
                   "rounded-full px-3 py-1 text-xs font-medium transition",
-                  layer === id ? "bg-emerald-600 text-white" : "bg-emerald-50 text-emerald-800 border border-emerald-100"
+                  layer === id ? "bg-emerald-600 text-white" : "bg-emerald-50 dark:bg-slate-800 text-emerald-800 dark:text-emerald-400 border border-emerald-100 dark:border-slate-700"
                 )}
               >
                 {label}
@@ -105,13 +103,11 @@ export default function DigitalTwinPage() {
           </div>
 
           <div className="relative w-full aspect-[4/3] rounded-xl bg-slate-900/90 overflow-hidden border border-slate-700">
-            {/* grid */}
             <div className="absolute inset-0 opacity-20"
               style={{ backgroundImage: "linear-gradient(#334155 1px, transparent 1px), linear-gradient(90deg, #334155 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
             {zones.map((z) => (
               <button
-                key={z.id}
-                onClick={() => setSelected(z)}
+                key={z.id} onClick={() => setSelected(z)}
                 className={clsx(
                   "absolute rounded-lg border-2 transition-all hover:ring-2 hover:ring-white/40",
                   layer === "thermal" && tempColor(z.temp),
@@ -142,31 +138,30 @@ export default function DigitalTwinPage() {
           </div>
         </div>
 
-        {/* What-if + drawer */}
         <div className="space-y-4">
-          <div className="bg-white/90 rounded-2xl border border-emerald-100 p-4">
-            <h2 className="text-sm font-semibold text-slate-800 flex items-center gap-2 mb-3">
-              <Sliders className="w-4 h-4 text-emerald-700" /> What-if sandbox
+          <div className="bg-white/90 dark:bg-slate-900/90 rounded-2xl border border-emerald-100 dark:border-slate-800 p-4 transition-colors duration-200">
+            <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-3">
+              <Sliders className="w-4 h-4 text-emerald-700 dark:text-emerald-500" /> What-if sandbox
             </h2>
-            <label className="block text-xs text-slate-500 mb-1">Outdoor heatwave spike (+°C)</label>
+            <label className="block text-xs text-slate-500 dark:text-slate-400 mb-1">Outdoor heatwave spike (+°C)</label>
             <input type="range" min={0} max={5} step={0.5} value={heatwave}
               onChange={(e) => setHeatwave(parseFloat(e.target.value))}
               className="w-full accent-emerald-600" />
-            <p className="text-xs text-slate-600 mt-1">+{heatwave}°C ambient stress</p>
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">+{heatwave}°C ambient stress</p>
 
-            <label className="flex items-center gap-2 mt-4 text-sm text-slate-700">
+            <label className="flex items-center gap-2 mt-4 text-sm text-slate-700 dark:text-slate-300">
               <input type="checkbox" checked={mixedMode} onChange={(e) => setMixedMode(e.target.checked)} className="accent-emerald-600" />
               Mixed-mode ventilation (facade louvers when outdoor favourable)
             </label>
 
             <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
-              <div className="rounded-lg bg-amber-50 border border-amber-100 p-2">
-                <p className="text-[10px] text-amber-800/70">Chiller load</p>
-                <p className="font-semibold text-amber-950">{chillerKw} kW</p>
+              <div className="rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/50 p-2">
+                <p className="text-[10px] text-amber-800/70 dark:text-amber-400/70">Chiller load</p>
+                <p className="font-semibold text-amber-950 dark:text-amber-300">{chillerKw} kW</p>
               </div>
-              <div className="rounded-lg bg-emerald-50 border border-emerald-100 p-2">
-                <p className="text-[10px] text-emerald-800/70">Est. hourly cost</p>
-                <p className="font-semibold text-emerald-950">₹{hourlyCost}</p>
+              <div className="rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/50 p-2">
+                <p className="text-[10px] text-emerald-800/70 dark:text-emerald-400/70">Est. hourly cost</p>
+                <p className="font-semibold text-emerald-950 dark:text-emerald-300">₹{hourlyCost}</p>
               </div>
             </div>
             <button onClick={runEcbc} disabled={simLoading}
@@ -176,32 +171,30 @@ export default function DigitalTwinPage() {
           </div>
 
           {selected && (
-            <div className="bg-white/90 rounded-2xl border border-emerald-100 p-4">
-              <h3 className="font-semibold text-slate-900 text-sm">{selected.name}</h3>
-              <p className="text-xs text-slate-500 mb-3">Floor {selected.floor} · telemetry drawer</p>
-              <ul className="space-y-2 text-sm text-slate-700">
+            <div className="bg-white/90 dark:bg-slate-900/90 rounded-2xl border border-emerald-100 dark:border-slate-800 p-4 transition-colors duration-200">
+              <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-sm">{selected.name}</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Floor {selected.floor} · telemetry drawer</p>
+              <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-center gap-2"><Thermometer className="w-3.5 h-3.5" /> {selected.temp}°C zone air</li>
                 <li className="flex items-center gap-2"><Wind className="w-3.5 h-3.5" /> {selected.cfm} CFM · CO₂ {selected.co2} ppm</li>
                 <li className="flex items-center gap-2"><Users className="w-3.5 h-3.5" /> {selected.occupied ? `${selected.headcount} present (mmWave)` : "Vacant — setback eligible"}</li>
-                <li className="text-xs text-slate-500">VAV damper actuation ~{selected.damper}%</li>
+                <li className="text-xs text-slate-500 dark:text-slate-400">VAV damper actuation ~{selected.damper}%</li>
               </ul>
-              <ExplanationTooltip
-                plainEnglish={selected.occupied
-                  ? "Stationary presence held from micro-motion; HVAC stays in comfort band."
-                  : "No presence ripple — setback allowed under adaptive comfort rules."}
-                topFeatures={[
-                  { feature: "presence", contribution: 0.5 },
-                  { feature: "co2", contribution: 0.3 },
-                  { feature: "temp_band", contribution: 0.2 },
-                ]}
-              />
+              <div className="mt-3">
+                <ExplanationTooltip
+                  plainEnglish={selected.occupied
+                    ? "Stationary presence held from micro-motion; HVAC stays in comfort band."
+                    : "No presence ripple — setback allowed under adaptive comfort rules."}
+                  topFeatures={[{ feature: "presence", contribution: 0.5 }, { feature: "co2", contribution: 0.3 }, { feature: "temp_band", contribution: 0.2 }]}
+                />
+              </div>
             </div>
           )}
 
           {simResult && (
-            <div className="bg-white/90 rounded-2xl border border-emerald-100 p-4 text-sm">
-              <p className="font-medium text-slate-800">EPI {simResult.calculated_epi} vs baseline {simResult.ecbc_baseline_epi}</p>
-              <p className="text-xs text-slate-500 mt-1">Gap {simResult.compliance_gap_pct}% · package ~₹{(simResult.recommended_package_cost / 1e5).toFixed(1)}L</p>
+            <div className="bg-white/90 dark:bg-slate-900/90 rounded-2xl border border-emerald-100 dark:border-slate-800 p-4 text-sm transition-colors duration-200">
+              <p className="font-medium text-slate-800 dark:text-slate-200">EPI {simResult.calculated_epi} vs baseline {simResult.ecbc_baseline_epi}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Gap {simResult.compliance_gap_pct}% · package ~₹{(simResult.recommended_package_cost / 1e5).toFixed(1)}L</p>
             </div>
           )}
         </div>

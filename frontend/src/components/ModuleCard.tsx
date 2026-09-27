@@ -11,16 +11,17 @@ interface ModuleCardProps {
 }
 
 const statusStyles = {
-  healthy: "border-emerald-200/80 bg-white hover:border-emerald-300",
-  warning: "border-amber-200 bg-amber-50/40 hover:border-amber-300",
-  critical: "border-red-200 bg-red-50/40 hover:border-red-300",
-  unknown: "border-slate-200 bg-white",
+  healthy: "border-emerald-200/80 dark:border-emerald-800/40 bg-white dark:bg-slate-900 hover:border-emerald-300 dark:hover:border-emerald-700/60",
+  warning: "border-amber-200 dark:border-amber-800/50 bg-amber-50/40 dark:bg-amber-900/10 hover:border-amber-300 dark:hover:border-amber-700/60",
+  critical: "border-red-200 dark:border-red-800/50 bg-red-50/40 dark:bg-red-900/10 hover:border-red-300 dark:hover:border-red-700/60",
+  unknown: "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700",
 };
+
 const statusDot = {
   healthy: "bg-emerald-500",
   warning: "bg-amber-500",
   critical: "bg-red-500",
-  unknown: "bg-slate-400",
+  unknown: "bg-slate-400 dark:bg-slate-600",
 };
 
 export const ModuleCard: React.FC<ModuleCardProps> = ({
@@ -35,11 +36,11 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
     )}
   >
     <div className="flex items-center justify-between mb-3">
-      <h3 className="text-xs font-medium text-slate-500 tracking-wide uppercase">{title}</h3>
+      <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 tracking-wide uppercase">{title}</h3>
       <span className={clsx("w-2.5 h-2.5 rounded-full", statusDot[status])} title={status} />
     </div>
-    <p className="text-lg font-semibold text-slate-900 tracking-tight leading-snug">{primary}</p>
-    {secondary && <p className="mt-1 text-sm text-slate-600">{secondary}</p>}
-    {detail && <p className="mt-2 text-xs text-slate-500 leading-relaxed line-clamp-2">{detail}</p>}
+    <p className="text-lg font-semibold text-slate-900 dark:text-slate-100 tracking-tight leading-snug">{primary}</p>
+    {secondary && <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{secondary}</p>}
+    {detail && <p className="mt-2 text-xs text-slate-500 dark:text-slate-500 leading-relaxed line-clamp-2">{detail}</p>}
   </button>
 );
